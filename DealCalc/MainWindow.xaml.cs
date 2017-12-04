@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Globalization;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace DealCalc
 {
@@ -41,18 +44,60 @@ namespace DealCalc
 
             Debug.WriteLine(parts.Length);
 
-            foreach (string s in text)
-            {
-                textPath.Content = s;
-            }
+//            foreach (string s in text)
+//            {
+//                textPath.Content = s;
+//            }
 
             Debug.WriteLine(TransactionData.CreateFromString(rawData: line1)); 
 
             var list = text.Select(TransactionData.CreateFromString).Where(data => data != null).ToList();
 
             var process = new CoreProcessor(list);
-            process.Process();
+
+            SeriesCollection = new SeriesCollection();
+
+            var values = new ChartValues<double>();
+           
+        
+            var res = process.Process();
+            var lables = new List<string>();
+            res.ForEach(result =>
+            {
+                values.Add(result.EffectiveRatio * 100);
+                lables.Add(result.Date.ToShortDateString());
+            });
+
+            Debug.WriteLine("resLength: "+res.Count);
+
+            SeriesCollection.Add(new ColumnSeries()
+            {
+                Values = values
+            });
+
+
+            Labels = lables.ToArray();
+     
+
+            //adding series will update and animate the chart automatically
+            //            SeriesCollection.Add(new ColumnSeries
+            //            {
+            //                Title = "2016",
+            //                Values = new ChartValues<double> { 11, 56, 42 }
+            //            });
+
+            //also adding values updates and animates the chart automatically
+
+            //            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
+            //            Formatter = value => value.ToString("N");
+
+            DataContext = this;
         }
+
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -74,10 +119,10 @@ namespace DealCalc
                     System.Diagnostics.Debug.WriteLine(s);
                 }
 
-                foreach (string s in text)
-                {
-                    textPath.Content = s;
-                }
+//                foreach (string s in text)
+//                {
+//                    textPath.Content = s;
+//                }
 
             }
 

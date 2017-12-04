@@ -9,10 +9,12 @@ namespace DealCalc
 {
     public class SingleDayProcessor
     {
+        private readonly DateTime _date;
         private readonly List<TransactionData> _transactionData;
 
-        public SingleDayProcessor(List<TransactionData> data)
+        public SingleDayProcessor(DateTime date, List<TransactionData> data)
         {
+            _date = date;
             _transactionData = data;
             _transactionData.RemoveAt(0);
         }
@@ -27,6 +29,7 @@ namespace DealCalc
             Debug.WriteLineIf(_transactionData.Count != 238, _transactionData.Count);
 
             return new SingleDayResult(
+                _date,
                 effectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal)> average).ToList().Sum(item=>item.EffectiveDeal) / total,
                 absEffectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList().Sum(item => Math.Abs(item.EffectiveDeal)) / total
                 );
@@ -37,8 +40,10 @@ namespace DealCalc
     {
         public readonly double EffectiveRatio;
         public readonly double AbsEffectiveRatio;
-        public SingleDayResult(double effectiveRatio, double absEffectiveRatio)
+        public readonly DateTime Date;
+        public SingleDayResult(DateTime date, double effectiveRatio, double absEffectiveRatio)
         {
+            Date = date;
             EffectiveRatio = effectiveRatio;
             AbsEffectiveRatio = absEffectiveRatio;
         }

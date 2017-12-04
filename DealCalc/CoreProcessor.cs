@@ -34,14 +34,18 @@ namespace DealCalc
             }
         }
 
-        public void Process()
+        public List<SingleDayResult> Process()
         {
+            var resList = new List<SingleDayResult>();
             foreach (var keyValuePair in DateSortedData)
             {
-                var singleDayResult = new SingleDayProcessor(keyValuePair.Value).Process();
+                var singleDayResult = new SingleDayProcessor(keyValuePair.Key, keyValuePair.Value).Process();
               
                 Debug.WriteLine(keyValuePair.Key.Date +" -> " + singleDayResult);
+                resList.Add(singleDayResult);
             }
+
+            return resList;
         }
     }
 }
