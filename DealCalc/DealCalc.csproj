@@ -61,8 +61,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CoreProcessor.cs" />
+    <Compile Include="EffectiveRatioChart.xaml.cs">
+      <DependentUpon>EffectiveRatioChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SingleDayProcessor.cs" />
     <Compile Include="TransactionData.cs" />
+    <Page Include="EffectiveRatioChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

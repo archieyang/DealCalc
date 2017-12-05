@@ -5,32 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DealCalc"
         mc:Ignorable="d"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         WindowState="Maximized"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Left">
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Name="Axis">
-                    <lvc:Axis.Sections>
-                        <lvc:AxisSection Value="5" StrokeThickness="3" Stroke="#FF8585">
-                            <lvc:AxisSection.Fill>
-                                <SolidColorBrush Color="#FF8585" Opacity=".4"></SolidColorBrush>
-                            </lvc:AxisSection.Fill>
-                        </lvc:AxisSection>
-                        <lvc:AxisSection Value="-5" StrokeThickness="3" Stroke="#FF8585">
-                            <lvc:AxisSection.Fill>
-                                <SolidColorBrush Color="#FF8585" Opacity=".4"></SolidColorBrush>
-                            </lvc:AxisSection.Fill>
-                        </lvc:AxisSection>
-                        
-                    </lvc:Axis.Sections>
-                </lvc:Axis>
+        Title="MainWindow" Height="750" Width="1100">
+    <DockPanel>
+        <Button Grid.Row="0"  Width="200" Height="50" Content="导入文件" Click="Button_Click" DockPanel.Dock="Top"/>
 
-            </lvc:CartesianChart.AxisY>
-        </lvc:CartesianChart>
-    </Grid>
+        <ContentControl Name="ContentHolder"  Height="Auto" />
+    </DockPanel>
 </Window>
