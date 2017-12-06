@@ -7,9 +7,12 @@
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="MainWindow" Height="750" Width="1100">
+    <Window.DataContext>
+        <local:RatioChartViewModel/>
+    </Window.DataContext>
     <DockPanel>
-        <Button Grid.Row="0"  Width="200" Height="50" Content="导入文件" Click="Button_Click" DockPanel.Dock="Top"/>
-
-        <ContentControl Name="ContentHolder"  Height="Auto" />
+        <Button  Width="200" Height="50" Content="导入文件" Command="{Binding OpenFileCommand}" DockPanel.Dock="Top"/>
+        <TextBox DockPanel.Dock="Top" Height="50" Text="{Binding SomeText, UpdateSourceTrigger=PropertyChanged}"/>
+        <ContentControl Name="ContentHolder"  Height="Auto" Content="{Binding Chart, UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>
 </Window>
