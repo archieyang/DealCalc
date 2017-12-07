@@ -12,7 +12,7 @@
     </Window.DataContext>
     <DockPanel>
         <Button  Width="200" Height="50" Content="导入文件" Command="{Binding OpenFileCommand}" DockPanel.Dock="Top"/>
-        <TextBox DockPanel.Dock="Top" Height="50" Text="{Binding SomeText, UpdateSourceTrigger=PropertyChanged}"/>
-        <ContentControl Name="ContentHolder"  Height="Auto" Content="{Binding Chart, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox DockPanel.Dock="Top" Height="50" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}"/>
+        <local:EffectiveRatioChart DataContext="{Binding ChartViewModel}"/>
     </DockPanel>
 </Window>

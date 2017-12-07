@@ -10,31 +10,20 @@ using System.Windows.Input;
 
 namespace DealCalc
 {
-    internal class RatioChartViewModel : INotifyPropertyChanged
+    internal class RatioChartViewModel : ViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private string _someText;
-        public string SomeText
+        private string _filePathText;
+        public string FilePathText
         {
-            get => _someText;
+            get => _filePathText;
             set
             {
-                _someText = value;
-               OnPropertyChanged("SomeText");
+                _filePathText = value;
+               OnPropertyChanged("FilePathText");
             }
         }
 
-        private EffectiveRatioChart _chart;
-
-        public EffectiveRatioChart Chart
-        {
-            get => _chart;
-            set
-            {
-                _chart = value;
-                OnPropertyChanged("Chart");
-            }
-        }
+        public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
 
@@ -48,7 +37,7 @@ namespace DealCalc
 
             if ((bool) openFileDialog.ShowDialog())
             {
-                SomeText = openFileDialog.FileName;
+                FilePathText = openFileDialog.FileName;
                 string[] text = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.Default);
 
                 string line1 = text[2];
@@ -68,13 +57,8 @@ namespace DealCalc
 
                 var process = new CoreProcessor(list);
 
-                Chart = new EffectiveRatioChart(process.Process());
+                ChartViewModel.Data = process.Process();
             }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

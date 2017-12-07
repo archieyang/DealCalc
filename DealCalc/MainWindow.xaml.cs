@@ -24,7 +24,6 @@ namespace DealCalc
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new RatioChartViewModel();
         }
     }
 }

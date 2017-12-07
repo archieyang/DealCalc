@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChartViewModel.cs" />
     <Compile Include="CoreProcessor.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="EffectiveRatioChart.xaml.cs">
@@ -83,6 +84,7 @@
     <Compile Include="RatioChartViewModel.cs" />
     <Compile Include="SingleDayProcessor.cs" />
     <Compile Include="TransactionData.cs" />
+    <Compile Include="ViewModel.cs" />
     <Page Include="EffectiveRatioChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
