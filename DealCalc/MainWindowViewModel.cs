@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace DealCalc
 {
-    internal class RatioChartViewModel : ViewModel
+    internal class MainWindowViewModel : ViewModel
     {
         private string _filePathText;
         public string FilePathText
@@ -23,7 +23,17 @@ namespace DealCalc
             }
         }
 
-        public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
+        private ChartViewModel _chartViewModel;
+
+        public ChartViewModel ChartViewModel
+        {
+            get => _chartViewModel;
+            set
+            {
+                _chartViewModel = value;
+                OnPropertyChanged("ChartViewModel");
+            }
+        }
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
 
@@ -57,7 +67,7 @@ namespace DealCalc
 
                 var process = new CoreProcessor(list);
 
-                ChartViewModel.Data = process.Process();
+                ChartViewModel = new ChartViewModel(process.Process());
             }
         }
     }

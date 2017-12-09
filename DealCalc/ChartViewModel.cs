@@ -11,36 +11,32 @@ namespace DealCalc
 {
     internal class ChartViewModel : ViewModel
     {
-        private List<SingleDayResult> _data;
+        private readonly List<SingleDayResult> _data;
         private SeriesCollection _seriesCollection;
         private string[] _labels;
-        public List<SingleDayResult> Data
+
+        public ChartViewModel(List<SingleDayResult> data)
         {
-            get => _data;
-            set
+            _data = data;
+            var seriesCollection = new SeriesCollection();
+
+            var values = new ChartValues<double>();
+            var lables = new List<string>();
+            _data.ForEach(result =>
             {
-                _data = value;
-                OnPropertyChanged("Data");
-                var seriesCollection = new SeriesCollection();
+                values.Add(result.EffectiveRatio * 100);
+                lables.Add(result.Date.ToShortDateString());
+            });
 
-                var values = new ChartValues<double>();
-                var lables = new List<string>();
-                _data.ForEach(result =>
-                {
-                    values.Add(result.EffectiveRatio * 100);
-                    lables.Add(result.Date.ToShortDateString());
-                });
+            Debug.WriteLine("resLength: " + _data.Count);
 
-                Debug.WriteLine("resLength: " + _data.Count);
+            seriesCollection.Add(new ColumnSeries()
+            {
+                Values = values
+            });
 
-                seriesCollection.Add(new ColumnSeries()
-                {
-                    Values = values
-                });
-
-                SeriesCollection = seriesCollection;
-                Labels = lables.ToArray();
-            }
+            SeriesCollection = seriesCollection;
+            Labels = lables.ToArray();
         }
 
         public SeriesCollection SeriesCollection

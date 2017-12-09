@@ -78,14 +78,14 @@
     <Compile Include="ChartViewModel.cs" />
     <Compile Include="CoreProcessor.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="EffectiveRatioChart.xaml.cs">
-      <DependentUpon>EffectiveRatioChart.xaml</DependentUpon>
+    <Compile Include="ChartView.xaml.cs">
+      <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RatioChartViewModel.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="SingleDayProcessor.cs" />
     <Compile Include="TransactionData.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="EffectiveRatioChart.xaml">
+    <Page Include="ChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

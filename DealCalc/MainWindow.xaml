@@ -8,11 +8,11 @@
         WindowState="Maximized"
         Title="MainWindow" Height="750" Width="1100">
     <Window.DataContext>
-        <local:RatioChartViewModel/>
+        <local:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
         <Button  Width="200" Height="50" Content="导入文件" Command="{Binding OpenFileCommand}" DockPanel.Dock="Top"/>
         <TextBox DockPanel.Dock="Top" Height="50" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}"/>
-        <local:EffectiveRatioChart DataContext="{Binding ChartViewModel}"/>
+        <local:ChartView DataContext="{Binding ChartViewModel}"/>
     </DockPanel>
 </Window>

@@ -19,11 +19,11 @@ using LiveCharts.Wpf;
 namespace DealCalc
 {
     /// <summary>
-    /// EffectiveRatioChart.xaml 的交互逻辑
+    /// ChartView.xaml 的交互逻辑
     /// </summary>
-    public partial class EffectiveRatioChart : UserControl
+    public partial class ChartView : UserControl
     {
-        public EffectiveRatioChart()
+        public ChartView()
         {
             InitializeComponent();
         }
