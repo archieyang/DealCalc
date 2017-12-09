@@ -36,6 +36,19 @@ namespace DealCalc
         }
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
+        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
+        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
+
+        private void SetNormal()
+        {
+            if (ChartViewModel == null) return;
+            ChartViewModel.ChartType = ChartViewModel.Type.Normal;
+        }
+        private void SetAbs()
+        {
+            if (ChartViewModel == null) return;
+            ChartViewModel.ChartType = ChartViewModel.Type.Abs;
+        }
 
         private void OpenFile()
         {
