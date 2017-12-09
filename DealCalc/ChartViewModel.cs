@@ -20,10 +20,10 @@ namespace DealCalc
 
         private Type _type;
 
-        public ChartViewModel(List<SingleDayResult> data)
+        public ChartViewModel(List<SingleDayResult> data, Type defaultType)
         {
             _data = data;
-            ChartType = Type.Normal;
+            ChartType = defaultType;
             Formatter = d => $"{d:P2}.";
         }
 

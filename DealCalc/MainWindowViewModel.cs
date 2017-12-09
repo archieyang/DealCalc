@@ -24,6 +24,23 @@ namespace DealCalc
         }
 
         private ChartViewModel _chartViewModel;
+        private ChartViewModel.Type _chartType = ChartViewModel.Type.Normal;
+
+        public ChartViewModel.Type ChartType
+        {
+            get => _chartType;
+            set
+            {
+                _chartType = value;
+
+                if (ChartViewModel != null)
+                {
+                    ChartViewModel.ChartType = _chartType;
+                }
+
+                OnPropertyChanged("ChartType");
+            }
+        } 
 
         public ChartViewModel ChartViewModel
         {
@@ -41,13 +58,11 @@ namespace DealCalc
 
         private void SetNormal()
         {
-            if (ChartViewModel == null) return;
-            ChartViewModel.ChartType = ChartViewModel.Type.Normal;
+            ChartType = ChartViewModel.Type.Normal;
         }
         private void SetAbs()
         {
-            if (ChartViewModel == null) return;
-            ChartViewModel.ChartType = ChartViewModel.Type.Abs;
+            ChartType = ChartViewModel.Type.Abs;
         }
 
         private void OpenFile()
@@ -80,7 +95,7 @@ namespace DealCalc
 
                 var process = new CoreProcessor(list);
 
-                ChartViewModel = new ChartViewModel(process.Process());
+                ChartViewModel = new ChartViewModel(process.Process(), ChartType);
             }
         }
     }
