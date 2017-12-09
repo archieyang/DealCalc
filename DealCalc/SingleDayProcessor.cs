@@ -26,7 +26,7 @@ namespace DealCalc
 
             var average = effectiveTotal / _transactionData.Count;
 
-            Debug.WriteLineIf(_transactionData.Count != 238, _transactionData.Count);
+            Debug.WriteLine("transaction per day :" + _transactionData.Count);
 
             return new SingleDayResult(
                 _date,

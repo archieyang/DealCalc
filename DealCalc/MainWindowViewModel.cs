@@ -13,6 +13,7 @@ namespace DealCalc
     internal class MainWindowViewModel : ViewModel
     {
         private string _filePathText;
+        private string _title;
         public string FilePathText
         {
             get => _filePathText;
@@ -20,6 +21,16 @@ namespace DealCalc
             {
                 _filePathText = value;
                OnPropertyChanged("FilePathText");
+            }
+        }
+
+        public String Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged("Title");
             }
         }
 
@@ -78,18 +89,13 @@ namespace DealCalc
                 FilePathText = openFileDialog.FileName;
                 string[] text = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.Default);
 
-                string line1 = text[2];
 
-                string[] parts = line1.Split(null);
+                //600020 中原高速 1分钟线 前复权
+                string titleLine = text[0];
 
-                foreach (string s in parts)
-                {
-                    Debug.WriteLine(s);
-                }
+                string[] parts = titleLine.Split(null);
 
-                Debug.WriteLine(parts.Length);
-
-                Debug.WriteLine(TransactionData.CreateFromString(rawData: line1));
+                Title = parts[0] + " " + parts[1];
 
                 var list = text.Select(TransactionData.CreateFromString).Where(data => data != null).ToList();
 

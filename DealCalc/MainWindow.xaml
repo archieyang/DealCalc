@@ -13,11 +13,16 @@
     <DockPanel>
         <StackPanel Height="50" VerticalAlignment="Top" Width="Auto" Orientation="Horizontal" DockPanel.Dock="Top">
             <Button  Width="200" Height="50" Content="导入文件" Command="{Binding OpenFileCommand}" />
+            <Border BorderBrush="{x:Null}" Height="Auto">
+                <TextBlock Width="200" Height="Auto" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" FontSize="25"  TextWrapping="Wrap"/>
+             </Border>
             <RadioButton Content="普通" Height="Auto" VerticalAlignment="Center" GroupName="ChartType" IsChecked="True" Command="{Binding CheckNormalCommand}"/>
             <RadioButton Content="绝对值" Height="Auto" VerticalAlignment="Center" GroupName="ChartType" Command="{Binding CheckAbsCommand}"/>
         </StackPanel>
-        
-        <TextBox DockPanel.Dock="Top" Height="50" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Border BorderBrush="{x:Null}" Height="50" DockPanel.Dock="Bottom">
+            <TextBlock  Height="50" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+        </Border>
         <local:ChartView DataContext="{Binding ChartViewModel}"/>
     </DockPanel>
     
