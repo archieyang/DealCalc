@@ -24,7 +24,6 @@ namespace DealCalc
                 {
                     dataListForDay = new List<TransactionData>();
                     DateSortedData.Add(transactionData.DateTime.Date, dataListForDay);
-                    continue;
                 }
 
                 dataListForDay = DateSortedData[transactionData.DateTime.Date];
@@ -41,7 +40,6 @@ namespace DealCalc
             {
                 var singleDayResult = new SingleDayProcessor(keyValuePair.Key, keyValuePair.Value).Process();
               
-                Debug.WriteLine(keyValuePair.Key.Date +" -> " + singleDayResult);
                 resList.Add(singleDayResult);
             }
 
