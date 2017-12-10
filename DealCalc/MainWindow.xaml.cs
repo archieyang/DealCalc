@@ -16,10 +16,11 @@ using System.Diagnostics;
 using System.Globalization;
 using LiveCharts;
 using LiveCharts.Wpf;
+using MahApps.Metro.Controls;
 
 namespace DealCalc
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {

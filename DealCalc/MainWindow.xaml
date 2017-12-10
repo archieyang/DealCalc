@@ -1,29 +1,36 @@
-﻿<Window x:Class="DealCalc.MainWindow"
+﻿<Controls:MetroWindow x:Class="DealCalc.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:DealCalc"
+        GlowBrush="{DynamicResource AccentColorBrush}"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="MainWindow" Height="750" Width="1100">
+        Title="DealCalc" Height="750" Width="1100">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
-        <StackPanel Height="50" VerticalAlignment="Top" Width="Auto" Orientation="Horizontal" DockPanel.Dock="Top">
-            <Button  Width="200" Height="50" Content="导入文件" Command="{Binding OpenFileCommand}" />
-            <Border BorderBrush="{x:Null}" Height="Auto">
-                <TextBlock Width="200" Height="Auto" VerticalAlignment="Center" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" FontSize="25"  TextWrapping="Wrap"/>
-             </Border>
-            <RadioButton Content="普通" Height="Auto" VerticalAlignment="Center" GroupName="ChartType" IsChecked="True" Command="{Binding CheckNormalCommand}"/>
-            <RadioButton Content="绝对值" Height="Auto" VerticalAlignment="Center" GroupName="ChartType" Command="{Binding CheckAbsCommand}"/>
-        </StackPanel>
+        <DockPanel Height="Auto" VerticalAlignment="Top" Width="Auto"  DockPanel.Dock="Top" Background="{DynamicResource AccentBaseColorBrush}">
+            <Border BorderBrush="{x:Null}" Height="Auto" HorizontalAlignment="Center" Width="500" VerticalAlignment="Center"  Margin="20">
+                <TextBlock Width="Auto" Height="Auto" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource SubHeaderFontSize}"  TextWrapping="Wrap" Foreground="{DynamicResource AccentSelectedColorBrush}"/>
+            </Border>
+            <Button  Content="导入文件" Width="100" Height="30"  Margin="20" HorizontalAlignment="Right" Command="{Binding OpenFileCommand}" Style="{DynamicResource SquareButtonStyle}"/>
+        </DockPanel>
 
-        <Border BorderBrush="{x:Null}" Height="50" DockPanel.Dock="Bottom">
-            <TextBlock  Height="50" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
-        </Border>
-        <local:ChartView DataContext="{Binding ChartViewModel}"/>
+        <DockPanel DockPanel.Dock="Bottom" Margin="20">
+            <Border BorderBrush="{x:Null}" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Left">
+                <TextBlock  Height="Auto"  FontSize="{DynamicResource StatusBarFontSize}" Foreground="{DynamicResource BlackBrush}" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center"/>
+            </Border>
+
+            <StackPanel  DockPanel.Dock="Right" Orientation="Horizontal"  Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <RadioButton Content="普通" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100"  GroupName="ChartType" IsChecked="True" Command="{Binding CheckNormalCommand}"/>
+                <RadioButton Content="绝对值" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100" GroupName="ChartType" Command="{Binding CheckAbsCommand}"/>
+            </StackPanel>
+        </DockPanel>
+        <local:ChartView DataContext="{Binding ChartViewModel}" Margin="20"/>
     </DockPanel>
     
-</Window>
+</Controls:MetroWindow>
