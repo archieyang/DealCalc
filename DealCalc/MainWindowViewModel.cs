@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DealCalc
@@ -99,6 +100,10 @@ namespace DealCalc
                 {
                     Title = parts[0] + " " + parts[1];
                 }
+                else
+                {
+                    MessageBox.Show("导入表单标题栏错误", "错误的表单", MessageBoxButton.OK);
+                }
 
                 string columnNameLine = text[1];
 
@@ -112,6 +117,10 @@ namespace DealCalc
                     {
                         columnNameDict.Add(columeNames[index].Trim(), index);
                     }
+                }
+                else
+                {
+                    MessageBox.Show("导入的表单包含的列数量错误", "错误的表单", MessageBoxButton.OK);
                 }
 
                 if (columnNameDict.Count != 8) return;
