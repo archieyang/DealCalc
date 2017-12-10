@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,14 +44,14 @@ namespace DealCalc
             return DateTime + " -> " + InitialPrice + " -- " + FinalPrice + " -- " + HighestPrice + " -- " + LowestPrice + " --" + TotalDeal + " -- " + TotalAmout;
         }
 
-        public static TransactionData CreateFromString(String rawData)
+        public static TransactionData CreateFromString(String rawData, Dictionary<String, int> indexDictionary)
         {
             try
             {
                 string[] dataItem = rawData.Split(null);
 
-                string date = dataItem[0];
-                string time = dataItem[1];
+                string date = dataItem[indexDictionary["日期"]];
+                string time = dataItem[indexDictionary["时间"]];
 
                 var builder = new StringBuilder();
                 builder.Append(date).Append(" ");
@@ -67,10 +68,10 @@ namespace DealCalc
 
                 var dateTime = Convert.ToDateTime(builder.ToString());
 
-                var highestPrice = Convert.ToDouble(dataItem[3]);
-                var lowestPrice = Convert.ToDouble(dataItem[4]);
-                var initialPrice = Convert.ToDouble(dataItem[2]);
-                var finalPrice = Convert.ToDouble(dataItem[5]);
+                var highestPrice = Convert.ToDouble(dataItem[indexDictionary["最高"]]);
+                var lowestPrice = Convert.ToDouble(dataItem[indexDictionary["最低"]]);
+                var initialPrice = Convert.ToDouble(dataItem[indexDictionary["开盘"]]);
+                var finalPrice = Convert.ToDouble(dataItem[indexDictionary["收盘"]]);
 
                 var totalDeal = Convert.ToDouble(dataItem[6]);
                 var totalAmout = Convert.ToDouble(dataItem[7]);

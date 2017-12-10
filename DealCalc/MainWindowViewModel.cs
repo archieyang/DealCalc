@@ -95,9 +95,29 @@ namespace DealCalc
 
                 string[] parts = titleLine.Split(null);
 
-                Title = parts[0] + " " + parts[1];
+                if (parts.Length == 4 && parts[0].Length == 6)
+                {
+                    Title = parts[0] + " " + parts[1];
+                }
 
-                var list = text.Select(TransactionData.CreateFromString).Where(data => data != null).ToList();
+                string columnNameLine = text[1];
+
+                string[] columeNames = columnNameLine.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                var columnNameDict = new Dictionary<String, int>();
+                if (columeNames.Length == 8)
+                {
+                    for (var index = 0; index < columeNames.Length; index++)
+                    {
+                        columnNameDict.Add(columeNames[index].Trim(), index);
+                    }
+                }
+
+                if (columnNameDict.Count != 8) return;
+
+
+                var list = text.Select(rawData => TransactionData.CreateFromString(rawData, columnNameDict)).Where(data => data != null).ToList();
 
                 var process = new CoreProcessor(list);
 
