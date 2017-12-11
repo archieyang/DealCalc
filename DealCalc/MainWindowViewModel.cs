@@ -90,8 +90,6 @@ namespace DealCalc
                 FilePathText = openFileDialog.FileName;
                 string[] text = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.Default);
 
-
-                //600020 中原高速 1分钟线 前复权
                 string titleLine = text[0];
 
                 string[] parts = titleLine.Split(null);
@@ -102,7 +100,7 @@ namespace DealCalc
                 }
                 else
                 {
-                    MessageBox.Show("导入表单标题栏错误", "错误的表单", MessageBoxButton.OK);
+                    AlertError("导入表单标题栏错误");
                 }
 
                 string columnNameLine = text[1];
@@ -120,7 +118,7 @@ namespace DealCalc
                 }
                 else
                 {
-                    MessageBox.Show("导入的表单包含的列数量错误", "错误的表单", MessageBoxButton.OK);
+                    AlertError("导入的表单包含的列数量错误");
                 }
 
                 if (columnNameDict.Count != 8) return;
@@ -131,6 +129,14 @@ namespace DealCalc
                 var process = new CoreProcessor(list);
 
                 ChartViewModel = new ChartViewModel(process.Process(), ChartType);
+            }
+        }
+
+        public void ProcessTheAnswer(MessageBoxResult result)
+        {
+            if (result == MessageBoxResult.Yes)
+            {
+                // Do something
             }
         }
     }

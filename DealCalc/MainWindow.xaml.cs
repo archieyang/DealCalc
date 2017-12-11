@@ -17,6 +17,7 @@ using System.Globalization;
 using LiveCharts;
 using LiveCharts.Wpf;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DealCalc
 {
@@ -25,6 +26,12 @@ namespace DealCalc
         public MainWindow()
         {
             InitializeComponent();
+            ((ViewModel) DataContext).ShowErrorMessageRequest += ShowErrorMessage;
+        }
+
+        private void ShowErrorMessage(object sender, String errorMessage)
+        {
+            this.ShowMessageAsync("错误", errorMessage, MessageDialogStyle.Affirmative, new MetroDialogSettings { AffirmativeButtonText = "好的" });
         }
     }
 }
