@@ -39,8 +39,10 @@ namespace DealCalc
             foreach (var keyValuePair in DateSortedData)
             {
                 var singleDayResult = new SingleDayProcessor(keyValuePair.Key, keyValuePair.Value).Process();
-              
-                resList.Add(singleDayResult);
+                if (singleDayResult != null)
+                {
+                    resList.Add(singleDayResult);
+                }
             }
 
             return resList;

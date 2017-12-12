@@ -24,6 +24,8 @@ namespace DealCalc
             var total = _transactionData.Sum(transactionData => transactionData.TotalDeal);
             var effectiveTotal = _transactionData.Sum(transactionData => Math.Abs(transactionData.EffectiveDeal));
 
+            if (_transactionData.Count != 239) return null; 
+
             var average = effectiveTotal / _transactionData.Count;
 
             Debug.WriteLine("transaction per day :" + _transactionData.Count);
