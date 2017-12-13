@@ -126,7 +126,7 @@ namespace DealCalc
 
                 var list = text.Select(rawData => TransactionData.CreateFromString(rawData, columnNameDict)).Where(data => data != null).ToList();
 
-                var process = new CoreProcessor(list);
+                var process = new CoreProcessor(list) {ErrorHandler = AlertError};
 
                 ChartViewModel = new ChartViewModel(process.Process(), ChartType);
             }

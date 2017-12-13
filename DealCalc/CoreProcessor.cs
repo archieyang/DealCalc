@@ -11,6 +11,9 @@ namespace DealCalc
     {
         public double Total;
         public double Average;
+        public ErrorHandlerDelegate ErrorHandler;
+
+        public delegate void ErrorHandlerDelegate (String error);
 
         public readonly Dictionary<DateTime, List<TransactionData>> DateSortedData = new Dictionary<DateTime, List<TransactionData>>();
 
@@ -42,6 +45,10 @@ namespace DealCalc
                 if (singleDayResult != null)
                 {
                     resList.Add(singleDayResult);
+                }
+                else
+                {
+                    ErrorHandler(keyValuePair.Key.ToShortDateString() +"的数据有误，已跳过当日数据");
                 }
             }
 
