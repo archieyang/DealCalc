@@ -11,6 +11,7 @@ namespace DealCalc
     {
         private readonly DateTime _date;
         private readonly List<TransactionData> _transactionData;
+        public ErrorHandlerDelegate ErrorHandler;
 
         public SingleDayProcessor(DateTime date, List<TransactionData> data)
         {
@@ -21,20 +22,31 @@ namespace DealCalc
 
         public SingleDayResult Process()
         {
-            var total = _transactionData.Sum(transactionData => transactionData.TotalDeal);
-            var effectiveTotal = _transactionData.Sum(transactionData => Math.Abs(transactionData.EffectiveDeal));
+            try
+            {
+                var total = _transactionData.Sum(transactionData => transactionData.TotalDeal);
+                var effectiveTotal = _transactionData.Sum(transactionData => Math.Abs(transactionData.EffectiveDeal));
 
-            if (_transactionData.Count != 239) return null; 
+                if (_transactionData.Count != 239) return null;
 
-            var average = effectiveTotal / _transactionData.Count;
+                var average = effectiveTotal / _transactionData.Count;
 
-            Debug.WriteLine("transaction per day :" + _transactionData.Count);
+                Debug.WriteLine("transaction per day :" + _transactionData.Count);
 
-            return new SingleDayResult(
-                _date,
-                effectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal)> average).ToList().Sum(item=>item.EffectiveDeal) / total,
-                absEffectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList().Sum(item => Math.Abs(item.EffectiveDeal)) / total
+                return new SingleDayResult(
+                    _date,
+                    effectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList()
+                                        .Sum(item => item.EffectiveDeal) / total,
+                    absEffectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList()
+                                           .Sum(item => Math.Abs(item.EffectiveDeal)) / total
                 );
+            }
+            catch (Exception e)
+            {
+                ErrorHandler?.Invoke(e.Message);
+                return null;
+            }
+
         }
     }
 

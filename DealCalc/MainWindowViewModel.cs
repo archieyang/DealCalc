@@ -131,13 +131,5 @@ namespace DealCalc
                 ChartViewModel = new ChartViewModel(process.Process(), ChartType);
             }
         }
-
-        public void ProcessTheAnswer(MessageBoxResult result)
-        {
-            if (result == MessageBoxResult.Yes)
-            {
-                // Do something
-            }
-        }
     }
 }

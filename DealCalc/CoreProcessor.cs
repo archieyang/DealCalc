@@ -7,52 +7,68 @@ using System.Threading.Tasks;
 
 namespace DealCalc
 {
+    public delegate void ErrorHandlerDelegate(string error);
+
     public class CoreProcessor
     {
         public double Total;
         public double Average;
         public ErrorHandlerDelegate ErrorHandler;
 
-        public delegate void ErrorHandlerDelegate (String error);
-
-        public readonly Dictionary<DateTime, List<TransactionData>> DateSortedData = new Dictionary<DateTime, List<TransactionData>>();
+        public readonly List<TransactionData> Data;
 
         public CoreProcessor(List<TransactionData> data)
         {
-            foreach (var transactionData in data)
-            {
-                List<TransactionData> dataListForDay;
+            Data = data;
 
-                if (!DateSortedData.ContainsKey(transactionData.DateTime.Date))
-                {
-                    dataListForDay = new List<TransactionData>();
-                    DateSortedData.Add(transactionData.DateTime.Date, dataListForDay);
-                }
-
-                dataListForDay = DateSortedData[transactionData.DateTime.Date];
-                
-
-                dataListForDay.Add(transactionData);
-            }
         }
 
         public List<SingleDayResult> Process()
         {
-            var resList = new List<SingleDayResult>();
-            foreach (var keyValuePair in DateSortedData)
+            try
             {
-                var singleDayResult = new SingleDayProcessor(keyValuePair.Key, keyValuePair.Value).Process();
-                if (singleDayResult != null)
+                var dateSortedData = new Dictionary<DateTime, List<TransactionData>>();
+                foreach (var transactionData in Data)
                 {
-                    resList.Add(singleDayResult);
+                    List<TransactionData> dataListForDay;
+
+                    if (!dateSortedData.ContainsKey(transactionData.DateTime.Date))
+                    {
+                        dataListForDay = new List<TransactionData>();
+                        dateSortedData.Add(transactionData.DateTime.Date, dataListForDay);
+                    }
+
+                    dataListForDay = dateSortedData[transactionData.DateTime.Date];
+
+
+                    dataListForDay.Add(transactionData);
                 }
-                else
+                var resList = new List<SingleDayResult>();
+                foreach (var keyValuePair in dateSortedData)
                 {
-                    ErrorHandler(keyValuePair.Key.ToShortDateString() +"的数据有误，已跳过当日数据");
+                    var singleDayResult = new SingleDayProcessor(keyValuePair.Key, keyValuePair.Value)
+                    {
+                        ErrorHandler = ErrorHandler
+
+                    }.Process();
+                    if (singleDayResult != null)
+                    {
+                        resList.Add(singleDayResult);
+                    }
+                    else
+                    {
+                        ErrorHandler?.Invoke(keyValuePair.Key.ToShortDateString() + "的数据有误，已跳过当日数据");
+                    }
                 }
+
+                return resList;
+            }
+            catch (Exception e)
+            {
+                ErrorHandler ?.Invoke(e.Message);
+                return new List<SingleDayResult>();
             }
 
-            return resList;
         }
     }
 }
