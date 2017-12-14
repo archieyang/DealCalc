@@ -27,11 +27,13 @@ namespace DealCalc
                 var total = _transactionData.Sum(transactionData => transactionData.TotalDeal);
                 var effectiveTotal = _transactionData.Sum(transactionData => Math.Abs(transactionData.EffectiveDeal));
 
-                if (_transactionData.Count != 239) return null;
+                if (_transactionData.Count != 239)
+                {
+                    ErrorHandler?.Invoke("计算时发生错误：" + _date.ToShortDateString() + "的数据缺失，已跳过当日数据");
+                    return null;
+                }
 
                 var average = effectiveTotal / _transactionData.Count;
-
-                Debug.WriteLine("transaction per day :" + _transactionData.Count);
 
                 return new SingleDayResult(
                     _date,
@@ -43,7 +45,7 @@ namespace DealCalc
             }
             catch (Exception e)
             {
-                ErrorHandler?.Invoke(e.Message);
+                ErrorHandler?.Invoke("计算时发生错误：" + _date.ToShortDateString() + "的数据异常，已跳过当日数据");
                 return null;
             }
 

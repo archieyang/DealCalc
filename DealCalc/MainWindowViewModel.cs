@@ -84,12 +84,17 @@ namespace DealCalc
 
                 if (columnNameDict.Count != 8) return;
 
+                var list = text.Skip(2).Select(textLine => TransactionData.CreateFromString(textLine, columnNameDict, AlertError)).Where(data =>data != null).ToList();
 
-                var list = text.Select(rawData => TransactionData.CreateFromString(rawData, columnNameDict)).Where(data => data != null).ToList();
-
-                var process = new CoreProcessor(list) {ErrorHandler = AlertError};
-
-                ChartViewModel.Data = process.Process();
+                if (list.Count == 0)
+                {
+                    AlertError(@"导入表单失败，请使用空格作为分隔符，日期样式为YYYY/MM/DD");
+                }
+                else
+                {
+                    var process = new CoreProcessor(list) { ErrorHandler = AlertError };
+                    ChartViewModel.Data = process.Process();
+                }
             }
         }
     }

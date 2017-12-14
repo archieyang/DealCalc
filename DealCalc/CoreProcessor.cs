@@ -55,17 +55,13 @@ namespace DealCalc
                     {
                         resList.Add(singleDayResult);
                     }
-                    else
-                    {
-                        ErrorHandler?.Invoke(keyValuePair.Key.ToShortDateString() + "的数据有误，已跳过当日数据");
-                    }
                 }
 
                 return resList;
             }
             catch (Exception e)
             {
-                ErrorHandler ?.Invoke(e.Message);
+                ErrorHandler ?.Invoke("计算时发生错误：" + e.Message);
                 return new List<SingleDayResult>();
             }
 

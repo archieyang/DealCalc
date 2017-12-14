@@ -44,11 +44,15 @@ namespace DealCalc
             return DateTime + " -> " + InitialPrice + " -- " + FinalPrice + " -- " + HighestPrice + " -- " + LowestPrice + " --" + TotalDeal + " -- " + TotalAmout;
         }
 
-        public static TransactionData CreateFromString(String rawData, Dictionary<String, int> indexDictionary)
+        public static TransactionData CreateFromString(String rawData, Dictionary<String, int> indexDictionary, ErrorHandlerDelegate errorHandler)
         {
             try
             {
                 string[] dataItem = rawData.Split(null);
+                if (dataItem.Length != 8)
+                {
+                    return null;
+                }
 
                 string date = dataItem[indexDictionary["日期"]];
                 string time = dataItem[indexDictionary["时间"]];
@@ -73,13 +77,13 @@ namespace DealCalc
                 var initialPrice = Convert.ToDouble(dataItem[indexDictionary["开盘"]]);
                 var finalPrice = Convert.ToDouble(dataItem[indexDictionary["收盘"]]);
 
-                var totalDeal = Convert.ToDouble(dataItem[6]);
-                var totalAmout = Convert.ToDouble(dataItem[7]);
+                var totalDeal = Convert.ToDouble(dataItem[indexDictionary["成交量"]]);
+                var totalAmout = Convert.ToDouble(dataItem[indexDictionary["成交额"]]);
                 return new TransactionData(dateTime: dateTime, highestPrice: highestPrice, lowestPrice: lowestPrice, initialPrice: initialPrice, finalPrice: finalPrice, totalDeal: totalDeal, totalAmount: totalAmout);
             }
             catch (Exception e)
             {
-                Debug.WriteLine(rawData);
+                errorHandler?.Invoke("导入表单失败：" + e.Message);
                 return null;               
             }
         }
