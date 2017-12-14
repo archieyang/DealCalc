@@ -45,56 +45,65 @@ namespace DealCalc
                 Multiselect = false,
                 Filter = "Text files (*.txt)|*.txt"
             };
-
-            if ((bool) openFileDialog.ShowDialog())
+            try
             {
-                FilePathText = openFileDialog.FileName;
-                string[] text = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.Default);
-
-                string titleLine = text[0];
-
-                string[] parts = titleLine.Split(null);
-
-                if (parts.Length == 4 && parts[0].Length == 6)
+                if ((bool) openFileDialog.ShowDialog())
                 {
-                    Title = parts[0] + " " + parts[1];
-                }
-                else
-                {
-                    AlertError("导入表单标题栏错误");
-                }
+                    FilePathText = openFileDialog.FileName;
+                    string[] text = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.Default);
 
-                string columnNameLine = text[1];
+                    string titleLine = text[0];
 
-                string[] columeNames = columnNameLine.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] parts = titleLine.Split(null);
 
-
-                var columnNameDict = new Dictionary<String, int>();
-                if (columeNames.Length == 8)
-                {
-                    for (var index = 0; index < columeNames.Length; index++)
+                    if (parts.Length == 4 && parts[0].Length == 6)
                     {
-                        columnNameDict.Add(columeNames[index].Trim(), index);
+                        Title = parts[0] + " " + parts[1];
+                    }
+                    else
+                    {
+                        AlertError("导入表单标题栏错误");
+                    }
+
+                    string columnNameLine = text[1];
+
+                    string[] columeNames = columnNameLine.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+
+
+                    var columnNameDict = new Dictionary<String, int>();
+                    if (columeNames.Length == 8)
+                    {
+                        for (var index = 0; index < columeNames.Length; index++)
+                        {
+                            columnNameDict.Add(columeNames[index].Trim(), index);
+                        }
+                    }
+                    else
+                    {
+                        AlertError("导入的表单包含的列数量错误");
+                    }
+
+                    if (columnNameDict.Count != 8) return;
+
+                    var list = text.Skip(2)
+                        .Select(textLine => TransactionData.CreateFromString(textLine, columnNameDict, AlertError))
+                        .Where(data => data != null).ToList();
+
+                    if (list.Count == 0)
+                    {
+                        AlertError(@"导入表单失败，请使用空格作为分隔符，日期样式为YYYY/MM/DD");
+                    }
+                    else
+                    {
+                        var process = new CoreProcessor(list) {ErrorHandler = AlertError};
+                        ChartViewModel.Data = process.Process();
                     }
                 }
-                else
-                {
-                    AlertError("导入的表单包含的列数量错误");
-                }
 
-                if (columnNameDict.Count != 8) return;
-
-                var list = text.Skip(2).Select(textLine => TransactionData.CreateFromString(textLine, columnNameDict, AlertError)).Where(data =>data != null).ToList();
-
-                if (list.Count == 0)
-                {
-                    AlertError(@"导入表单失败，请使用空格作为分隔符，日期样式为YYYY/MM/DD");
-                }
-                else
-                {
-                    var process = new CoreProcessor(list) { ErrorHandler = AlertError };
-                    ChartViewModel.Data = process.Process();
-                }
+            }
+            catch (Exception e)
+            {
+                AlertError("打开表单时发生异常：" + e);
             }
         }
     }
