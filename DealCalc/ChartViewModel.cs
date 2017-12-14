@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
 
@@ -11,7 +12,7 @@ namespace DealCalc
 {
     internal class ChartViewModel : ViewModel
     {
-        private readonly List<SingleDayResult> _data;
+        private List<SingleDayResult> _data;
         private SeriesCollection _seriesCollection;
         private  double _upperSection = 0.05;
         private double _lowerSection = -0.05;
@@ -20,11 +21,19 @@ namespace DealCalc
 
         private Type _type;
 
-        public ChartViewModel(List<SingleDayResult> data, Type defaultType)
+        public ChartViewModel()
         {
-            _data = data;
-            ChartType = defaultType;
             Formatter = d => $"{d:P2}.";
+        }
+
+        public List<SingleDayResult> Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                Refresh();
+            }
         }
 
         public Type ChartType
@@ -33,42 +42,58 @@ namespace DealCalc
             set
             {
                 _type = value;
-                OnPropertyChanged("ChartType");
-
-                var seriesCollection = new SeriesCollection();
-
-                var values = new ChartValues<double>();
-                var lables = new List<string>();
-                _data.ForEach(result =>
-                {
-                    values.Add( value ==Type.Normal ? result.EffectiveRatio :result.AbsEffectiveRatio);
-                    lables.Add(result.Date.ToShortDateString());
-                });
-
-                Debug.WriteLine("resLength: " + _data.Count);
-
-                seriesCollection.Add(new ColumnSeries()
-                {
-                    Title = "百分比",
-                    Values = values
-                });
-
-                SeriesCollection = seriesCollection;
-                Labels = lables.ToArray();
-
-                if (ChartType.Equals(Type.Abs))
-                {
-                    UpperSection = 0.25;
-                    LowerSection = 0.25;
-                    Step = 0.25;
-                }
-                else
-                {
-                    UpperSection = 0.05;
-                    LowerSection = -0.05;
-                    Step = 0.05;
-                }
+                OnPropertyChanged();
+                Refresh();
             }
+        }
+
+        private void Refresh()
+        {
+            var seriesCollection = new SeriesCollection();
+
+            var values = new ChartValues<double>();
+            var lables = new List<string>();
+            _data.ForEach(result =>
+            {
+                values.Add(ChartType == Type.Normal ? result.EffectiveRatio : result.AbsEffectiveRatio);
+                lables.Add(result.Date.ToShortDateString());
+            });
+
+            Debug.WriteLine("resLength: " + _data.Count);
+
+            seriesCollection.Add(new ColumnSeries()
+            {
+                Title = "百分比",
+                Values = values
+            });
+
+            SeriesCollection = seriesCollection;
+            Labels = lables.ToArray();
+
+            if (ChartType.Equals(Type.Abs))
+            {
+                UpperSection = 0.25;
+                LowerSection = 0.25;
+                Step = 0.25;
+            }
+            else
+            {
+                UpperSection = 0.05;
+                LowerSection = -0.05;
+                Step = 0.05;
+            }
+        }
+
+        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
+        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
+
+        private void SetNormal()
+        {
+            ChartType = ChartViewModel.Type.Normal;
+        }
+        private void SetAbs()
+        {
+            ChartType = ChartViewModel.Type.Abs;
         }
 
         public SeriesCollection SeriesCollection
@@ -77,7 +102,7 @@ namespace DealCalc
             set
             {
                 _seriesCollection = value;
-                OnPropertyChanged("SeriesCollection");
+                OnPropertyChanged();
             }
         }
 
@@ -87,7 +112,7 @@ namespace DealCalc
             set
             {
                 _labels = value;
-                OnPropertyChanged("Labels");
+                OnPropertyChanged();
             }
         }
 
@@ -97,7 +122,7 @@ namespace DealCalc
             set
             {
                 _upperSection = value;
-                OnPropertyChanged("UpperSection");
+                OnPropertyChanged();
             }
         }
 
@@ -107,7 +132,7 @@ namespace DealCalc
             set
             {
                 _lowerSection = value;
-                OnPropertyChanged("LowerSection");
+                OnPropertyChanged();
             }
         }
 
@@ -117,7 +142,7 @@ namespace DealCalc
             set
             {
                 _step = value;
-                OnPropertyChanged("Step");
+                OnPropertyChanged();
             }
         }
 

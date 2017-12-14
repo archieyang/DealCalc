@@ -21,7 +21,7 @@ namespace DealCalc
             set
             {
                 _filePathText = value;
-               OnPropertyChanged("FilePathText");
+               OnPropertyChanged();
             }
         }
 
@@ -31,51 +31,12 @@ namespace DealCalc
             set
             {
                 _title = value;
-                OnPropertyChanged("Title");
+                OnPropertyChanged();
             }
         }
-
-        private ChartViewModel _chartViewModel;
-        private ChartViewModel.Type _chartType = ChartViewModel.Type.Normal;
-
-        public ChartViewModel.Type ChartType
-        {
-            get => _chartType;
-            set
-            {
-                _chartType = value;
-
-                if (ChartViewModel != null)
-                {
-                    ChartViewModel.ChartType = _chartType;
-                }
-
-                OnPropertyChanged("ChartType");
-            }
-        } 
-
-        public ChartViewModel ChartViewModel
-        {
-            get => _chartViewModel;
-            set
-            {
-                _chartViewModel = value;
-                OnPropertyChanged("ChartViewModel");
-            }
-        }
+        public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
-        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
-        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
-
-        private void SetNormal()
-        {
-            ChartType = ChartViewModel.Type.Normal;
-        }
-        private void SetAbs()
-        {
-            ChartType = ChartViewModel.Type.Abs;
-        }
 
         private void OpenFile()
         {
@@ -128,7 +89,7 @@ namespace DealCalc
 
                 var process = new CoreProcessor(list) {ErrorHandler = AlertError};
 
-                ChartViewModel = new ChartViewModel(process.Process(), ChartType);
+                ChartViewModel.Data = process.Process();
             }
         }
     }
