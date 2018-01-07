@@ -35,12 +35,16 @@ namespace DealCalc
 
                 var average = effectiveTotal / _transactionData.Count;
 
+                var effectiveAmount = _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList()
+                                        .Sum(item => item.EffectiveDeal);
+
                 return new SingleDayResult(
                     _date,
-                    effectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList()
-                                        .Sum(item => item.EffectiveDeal) / total,
+                    effectiveRatio:  effectiveAmount / total,
                     absEffectiveRatio: _transactionData.Where(item => Math.Abs(item.EffectiveDeal) > average).ToList()
-                                           .Sum(item => Math.Abs(item.EffectiveDeal)) / total
+                                           .Sum(item => Math.Abs(item.EffectiveDeal)) / total,
+                    effectiveAmount: effectiveAmount,
+                    totalAmount: total
                 );
             }
             catch (Exception e)
@@ -57,16 +61,20 @@ namespace DealCalc
         public readonly double EffectiveRatio;
         public readonly double AbsEffectiveRatio;
         public readonly DateTime Date;
-        public SingleDayResult(DateTime date, double effectiveRatio, double absEffectiveRatio)
+        public readonly double EffectiveAmount;
+        public readonly double TotalAmount;
+        public SingleDayResult(DateTime date, double effectiveRatio, double absEffectiveRatio, double effectiveAmount, double totalAmount)
         {
             Date = date;
             EffectiveRatio = effectiveRatio;
             AbsEffectiveRatio = absEffectiveRatio;
+            EffectiveAmount = effectiveAmount;
+            TotalAmount = totalAmount;
         }
 
         public override string ToString()
         {
-            return "EffectiveRation = " + EffectiveRatio + ", AbsEffectiveRatio=" + AbsEffectiveRatio;
+            return "EffectiveRation = " + EffectiveRatio + ", EffectiveAmount=" + EffectiveAmount +", Total=" + TotalAmount;
         }
     }
 }

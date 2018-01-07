@@ -25,7 +25,7 @@
                 <TextBlock  Height="Auto"  FontSize="{DynamicResource StatusBarFontSize}" Foreground="{DynamicResource BlackBrush}" Text="{Binding FilePathText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center"/>
             </Border>
 
-            <StackPanel  DockPanel.Dock="Right" Orientation="Horizontal"  Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center" DataContext="{Binding Path=ChartViewModel}">
+            <StackPanel  DockPanel.Dock="Right" Orientation="Horizontal"  Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <RadioButton Content="普通" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100"  GroupName="ChartType" IsChecked="True" Command="{Binding CheckNormalCommand}"/>
                 <RadioButton Content="绝对值" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100" GroupName="ChartType" Command="{Binding CheckAbsCommand}"/>
             </StackPanel>

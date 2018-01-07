@@ -15,6 +15,8 @@ namespace DealCalc
     {
         private string _filePathText;
         private string _title;
+        private ChartViewModel.Type _type = ChartViewModel.Type.Normal;
+        private List<SingleDayResult> _data = new List<SingleDayResult>();
         public string FilePathText
         {
             get => _filePathText;
@@ -34,10 +36,31 @@ namespace DealCalc
                 OnPropertyChanged();
             }
         }
+
+        public ChartViewModel.Type ChartType
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                OnPropertyChanged();
+                Refresh();
+            }
+        }
         public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
+        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
+        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
 
+        private void SetNormal()
+        {
+            ChartType = ChartViewModel.Type.Normal;
+        }
+        private void SetAbs()
+        {
+            ChartType = ChartViewModel.Type.Abs;
+        }
         private void OpenFile()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -96,7 +119,8 @@ namespace DealCalc
                     else
                     {
                         var process = new CoreProcessor(list) {ErrorHandler = AlertError};
-                        ChartViewModel.Data = process.Process();
+                        _data = process.Process();
+                       Refresh();
                     }
                 }
 
@@ -104,6 +128,18 @@ namespace DealCalc
             catch (Exception e)
             {
                 AlertError("打开表单时发生异常：" + e);
+            }
+        }
+
+        private void Refresh()
+        {
+            if (_type == ChartViewModel.Type.Abs)
+            {
+                ChartViewModel.Adapter = new SingleDayAbsoluteAdapter(_data);
+            }
+            else
+            {
+                ChartViewModel.Adapter = new SingleDayAdapter(_data);
             }
         }
     }

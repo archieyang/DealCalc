@@ -12,39 +12,29 @@ namespace DealCalc
 {
     internal class ChartViewModel : ViewModel
     {
-        private List<SingleDayResult> _data;
         private SeriesCollection _seriesCollection;
+        private ChartAdapter _adapter = new EmptyAdapter();
         private  double _upperSection = 0.05;
         private double _lowerSection = -0.05;
         private double _step = 0.05;
         private string[] _labels;
 
-        private Type _type;
+   
 
         public ChartViewModel()
         {
             Formatter = d => $"{d:P2}.";
         }
 
-        public List<SingleDayResult> Data
+        public ChartAdapter Adapter
         {
-            get => _data;
+            get => _adapter;
             set
             {
-                _data = value;
+                _adapter = value;
                 Refresh();
             }
-        }
 
-        public Type ChartType
-        {
-            get => _type;
-            set
-            {
-                _type = value;
-                OnPropertyChanged();
-                Refresh();
-            }
         }
 
         private void Refresh()
@@ -53,13 +43,11 @@ namespace DealCalc
 
             var values = new ChartValues<double>();
             var lables = new List<string>();
-            _data.ForEach(result =>
+            _adapter.ForEach(result =>
             {
-                values.Add(ChartType == Type.Normal ? result.EffectiveRatio : result.AbsEffectiveRatio);
-                lables.Add(result.Date.ToShortDateString());
+                values.Add(result.value);
+                lables.Add(result.label);
             });
-
-            Debug.WriteLine("resLength: " + _data.Count);
 
             seriesCollection.Add(new ColumnSeries()
             {
@@ -70,30 +58,10 @@ namespace DealCalc
             SeriesCollection = seriesCollection;
             Labels = lables.ToArray();
 
-            if (ChartType.Equals(Type.Abs))
-            {
-                UpperSection = 0.25;
-                LowerSection = 0.25;
-                Step = 0.25;
-            }
-            else
-            {
-                UpperSection = 0.05;
-                LowerSection = -0.05;
-                Step = 0.05;
-            }
-        }
+            UpperSection = _adapter.Upper();
+            LowerSection = _adapter.Lower();
+            Step = _adapter.Step();
 
-        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
-        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
-
-        private void SetNormal()
-        {
-            ChartType = ChartViewModel.Type.Normal;
-        }
-        private void SetAbs()
-        {
-            ChartType = ChartViewModel.Type.Abs;
         }
 
         public SeriesCollection SeriesCollection

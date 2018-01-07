@@ -103,13 +103,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChartAdapter.cs" />
+    <Compile Include="ChartItem.cs" />
     <Compile Include="ChartViewModel.cs" />
     <Compile Include="CoreProcessor.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EmptyAdapter.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="SingleDayAbsoluteAdapter.cs" />
+    <Compile Include="SingleDayAdapter.cs" />
     <Compile Include="SingleDayProcessor.cs" />
     <Compile Include="TransactionData.cs" />
     <Compile Include="ViewModel.cs" />
