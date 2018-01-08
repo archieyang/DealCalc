@@ -52,7 +52,12 @@ namespace DealCalc
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
         public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
         public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
+        public ICommand CheckAverageCommand => new DelegateCommand(SetConsecutiveAverage);
 
+        private void SetConsecutiveAverage()
+        {
+            ChartType = ChartViewModel.Type.FIVE_DAY;
+        }
         private void SetNormal()
         {
             ChartType = ChartViewModel.Type.Normal;
@@ -133,13 +138,18 @@ namespace DealCalc
 
         private void Refresh()
         {
+            Debug.WriteLine(_type + "");
             if (_type == ChartViewModel.Type.Abs)
             {
                 ChartViewModel.Adapter = new SingleDayAbsoluteAdapter(_data);
             }
-            else
+            else  if (_type == ChartViewModel.Type.Normal)
             {
                 ChartViewModel.Adapter = new SingleDayAdapter(_data);
+            }
+            else
+            {
+                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data);
             }
         }
     }

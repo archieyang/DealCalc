@@ -119,7 +119,8 @@ namespace DealCalc
         public enum Type
         {
             Normal,
-            Abs
+            Abs,
+            FIVE_DAY
         }
 
     }
