@@ -10,10 +10,12 @@ namespace DealCalc
     class ConsecutiveAverageAdapter : ChartAdapter
     {
         private readonly List<SingleDayResult> _data;
+        private readonly int _consecutiveNum;
 
-        public ConsecutiveAverageAdapter(List<SingleDayResult> data)
+        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum)
         {
             _data = data;
+            _consecutiveNum = consecutiveNum;
         }
 
         public void ForEach(Action<ChartItem> action)
@@ -35,10 +37,10 @@ namespace DealCalc
                 total += item.EffectiveAmount;
                 Debug.WriteLine(total);
 
-                if ((i+1) % 5 == 0)
+                if ((i+1) % _consecutiveNum == 0)
                 {
                     Debug.WriteLine(total);
-                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + item.Date.ToShortDateString(), total / 5);
+                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + item.Date.ToShortDateString(), total / _consecutiveNum);
                     action?.Invoke(chartItem);
 
                     total = 0;

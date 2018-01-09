@@ -149,7 +149,7 @@ namespace DealCalc
             }
             else
             {
-                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data);
+                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, 5);
             }
         }
     }
