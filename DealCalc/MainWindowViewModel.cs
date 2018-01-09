@@ -17,6 +17,8 @@ namespace DealCalc
         private string _title;
         private ChartViewModel.Type _type = ChartViewModel.Type.Normal;
         private List<SingleDayResult> _data = new List<SingleDayResult>();
+        private int _consecutiveNum = 1;
+        private bool _consecutive = false;
         public string FilePathText
         {
             get => _filePathText;
@@ -37,6 +39,20 @@ namespace DealCalc
             }
         }
 
+        public bool Consecutive
+        {
+            get => _consecutive;
+            set
+            {
+                _consecutive = value;
+                if(_consecutive)
+                {
+                    SetConsecutiveAverage();
+                }
+                OnPropertyChanged();
+            }
+        }
+
         public ChartViewModel.Type ChartType
         {
             get => _type;
@@ -47,6 +63,19 @@ namespace DealCalc
                 Refresh();
             }
         }
+
+        public int ConsecutiveNum {
+            get => _consecutiveNum;
+            set
+            {
+                _consecutiveNum = value;
+                Consecutive = true;
+                Refresh();
+            }
+        }
+
+        public List<int> ConsecutiveChoices { get; set; } = new List<int> { 5, 10, 20, 60 };
+
         public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
@@ -149,7 +178,8 @@ namespace DealCalc
             }
             else
             {
-                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, 5);
+                Debug.WriteLine(ConsecutiveNum);
+                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, ConsecutiveNum);
             }
         }
     }
