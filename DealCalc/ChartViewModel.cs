@@ -120,7 +120,7 @@ namespace DealCalc
         {
             Normal,
             Abs,
-            FIVE_DAY
+            ConsecutiveAverage
         }
 
     }

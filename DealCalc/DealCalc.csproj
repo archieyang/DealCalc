@@ -105,6 +105,7 @@
     </ApplicationDefinition>
     <Compile Include="ChartAdapter.cs" />
     <Compile Include="ChartItem.cs" />
+    <Compile Include="ChartTypeSelection.cs" />
     <Compile Include="ChartViewModel.cs" />
     <Compile Include="ConsecutiveAverageAdapter.cs" />
     <Compile Include="CoreProcessor.cs" />

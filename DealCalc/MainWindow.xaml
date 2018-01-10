@@ -27,10 +27,7 @@
 
 
             <StackPanel  DockPanel.Dock="Right" Orientation="Horizontal"  Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <RadioButton Content="普通" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100"  GroupName="ChartType" IsChecked="True" Command="{Binding CheckNormalCommand}"/>
-                <RadioButton Content="绝对值" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="100" GroupName="ChartType" Command="{Binding CheckAbsCommand}"/>
-                <RadioButton Content="连续n日均量" FontSize="{DynamicResource ToggleSwitchFontSize}" Height="Auto" Width="120" GroupName="ChartType" Command="{Binding CheckAverageCommand}" IsChecked="{Binding Consecutive}"/>
-            <ComboBox ItemsSource="{Binding ConsecutiveChoices}" SelectedValue="{Binding ConsecutiveNum}"/>
+                <ComboBox ItemsSource="{Binding Path=SelectionItems}"  DisplayMemberPath="Name" SelectedValue="{Binding Path=CurrentSelection}" SelectedIndex="0"/>
         </StackPanel>
               
 

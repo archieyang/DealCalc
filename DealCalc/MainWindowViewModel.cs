@@ -15,10 +15,51 @@ namespace DealCalc
     {
         private string _filePathText;
         private string _title;
-        private ChartViewModel.Type _type = ChartViewModel.Type.Normal;
+        private ChartTypeSelection _selection = new ChartTypeSelection
+        {
+            Name = "普通",
+            Type = ChartViewModel.Type.Normal,
+            ConsecutiveName = 1
+        };
         private List<SingleDayResult> _data = new List<SingleDayResult>();
-        private int _consecutiveNum = 1;
-        private bool _consecutive = false;
+        public List<ChartTypeSelection> SelectionItems { get; set; } = new List<ChartTypeSelection>() {
+            new ChartTypeSelection
+            {
+                Name = "普通",
+                Type = ChartViewModel.Type.Normal,
+                ConsecutiveName = 1
+            },
+            new ChartTypeSelection
+            {
+                Name = "绝对值",
+                Type = ChartViewModel.Type.Abs,
+                ConsecutiveName = 1
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续5日",
+                Type = ChartViewModel.Type.ConsecutiveAverage,
+                ConsecutiveName = 5
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续10日",
+                Type = ChartViewModel.Type.ConsecutiveAverage,
+                ConsecutiveName = 10
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续20日",
+                Type = ChartViewModel.Type.ConsecutiveAverage,
+                ConsecutiveName = 20
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续60日",
+                Type = ChartViewModel.Type.ConsecutiveAverage,
+                ConsecutiveName = 60
+            },
+        };
         public string FilePathText
         {
             get => _filePathText;
@@ -39,62 +80,20 @@ namespace DealCalc
             }
         }
 
-        public bool Consecutive
-        {
-            get => _consecutive;
+        public ChartTypeSelection CurrentSelection {
+            get => _selection;
             set
-            {
-                _consecutive = value;
-                if(_consecutive)
-                {
-                    SetConsecutiveAverage();
-                }
-                OnPropertyChanged();
-            }
-        }
-
-        public ChartViewModel.Type ChartType
-        {
-            get => _type;
-            set
-            {
-                _type = value;
+             {
+                _selection = value;
                 OnPropertyChanged();
                 Refresh();
             }
         }
-
-        public int ConsecutiveNum {
-            get => _consecutiveNum;
-            set
-            {
-                _consecutiveNum = value;
-                Consecutive = true;
-                Refresh();
-            }
-        }
-
-        public List<int> ConsecutiveChoices { get; set; } = new List<int> { 5, 10, 20, 60 };
 
         public ChartViewModel ChartViewModel { get; set; } = new ChartViewModel();
 
         public ICommand OpenFileCommand => new DelegateCommand(OpenFile);
-        public ICommand CheckAbsCommand => new DelegateCommand(SetAbs);
-        public ICommand CheckNormalCommand => new DelegateCommand(SetNormal);
-        public ICommand CheckAverageCommand => new DelegateCommand(SetConsecutiveAverage);
 
-        private void SetConsecutiveAverage()
-        {
-            ChartType = ChartViewModel.Type.FIVE_DAY;
-        }
-        private void SetNormal()
-        {
-            ChartType = ChartViewModel.Type.Normal;
-        }
-        private void SetAbs()
-        {
-            ChartType = ChartViewModel.Type.Abs;
-        }
         private void OpenFile()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -167,19 +166,17 @@ namespace DealCalc
 
         private void Refresh()
         {
-            Debug.WriteLine(_type + "");
-            if (_type == ChartViewModel.Type.Abs)
+            if (_selection.Type == ChartViewModel.Type.Abs)
             {
                 ChartViewModel.Adapter = new SingleDayAbsoluteAdapter(_data);
             }
-            else  if (_type == ChartViewModel.Type.Normal)
+            else  if (_selection.Type == ChartViewModel.Type.Normal)
             {
                 ChartViewModel.Adapter = new SingleDayAdapter(_data);
             }
             else
             {
-                Debug.WriteLine(ConsecutiveNum);
-                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, ConsecutiveNum);
+                ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, _selection.ConsecutiveName);
             }
         }
     }
