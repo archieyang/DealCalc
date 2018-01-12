@@ -24,6 +24,11 @@ namespace DealCalc
             });
         }
 
+        public Func<double, string> Formatter()
+        {
+            return d => $"{d:P2}.";
+        }
+
         public double Lower()
         {
             return -0.05;
@@ -37,6 +42,16 @@ namespace DealCalc
         public double Upper()
         {
             return 0.05;
+        }
+
+        public string Xname()
+        {
+            return "日期";
+        }
+
+        public string Yname()
+        {
+            return "百分比";
         }
     }
 }

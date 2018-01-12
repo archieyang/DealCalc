@@ -40,7 +40,7 @@ namespace DealCalc
                 if ((i+1) % _consecutiveNum == 0)
                 {
                     Debug.WriteLine(total);
-                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + item.Date.ToShortDateString(), total / _consecutiveNum);
+                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + "-" + item.Date.ToShortDateString(), total / _consecutiveNum);
                     action?.Invoke(chartItem);
 
                     total = 0;
@@ -48,6 +48,11 @@ namespace DealCalc
                   
                 }
             }
+        }
+
+        public Func<double, string> Formatter()
+        {
+            return d => $"{d:0.00}";
         }
 
         public double Lower()
@@ -63,6 +68,16 @@ namespace DealCalc
         public double Upper()
         {
             return 0;
+        }
+
+        public string Xname()
+        {
+            return "日期";
+        }
+
+        public string Yname()
+        {
+            return "有效交易额";
         }
     }
 }

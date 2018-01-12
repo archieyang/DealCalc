@@ -8,10 +8,10 @@
              mc:Ignorable="d" >
     <lvc:CartesianChart Series="{Binding SeriesCollection, UpdateSourceTrigger=PropertyChanged}"  LegendLocation="None" FontSize="{DynamicResource ContentFontSize}">
         <lvc:CartesianChart.AxisX>
-            <lvc:Axis Title="日期" Labels="{Binding Labels, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource NormalFontSize}"/>
+            <lvc:Axis Title="{Binding Xname, UpdateSourceTrigger=PropertyChanged}" Labels="{Binding Labels, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource NormalFontSize}"/>
         </lvc:CartesianChart.AxisX>
         <lvc:CartesianChart.AxisY>
-            <lvc:Axis Title="百分比" LabelFormatter="{Binding Formatter}" FontSize="{DynamicResource NormalFontSize}">
+            <lvc:Axis Title="{Binding Yname, UpdateSourceTrigger=PropertyChanged}" LabelFormatter="{Binding Formatter, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource NormalFontSize}">
                 <lvc:Axis.Sections>
                     <lvc:AxisSection Value="{Binding UpperSection, UpdateSourceTrigger=PropertyChanged}" StrokeThickness="1" Stroke="#FF8585">
                         <lvc:AxisSection.Fill>

@@ -12,5 +12,8 @@ namespace DealCalc
         double Upper();
         double Lower();
         double Step();
+        String Xname();
+        String Yname();
+        Func<double, string> Formatter();
     }
 }

@@ -18,8 +18,29 @@ namespace DealCalc
         private double _lowerSection = -0.05;
         private double _step = 0.05;
         private string[] _labels;
+        private String xname = "x";
+        private String yname = "y";
+        private Func<double, string> _formatter;
 
-   
+        public String Xname
+        {
+            get => xname;
+            set
+            {
+                xname = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public String Yname
+        {
+            get => yname;
+            set
+            {
+                yname = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ChartViewModel()
         {
@@ -51,7 +72,7 @@ namespace DealCalc
 
             seriesCollection.Add(new ColumnSeries()
             {
-                Title = "百分比",
+                Title = _adapter.Yname(),
                 Values = values
             });
 
@@ -61,6 +82,10 @@ namespace DealCalc
             UpperSection = _adapter.Upper();
             LowerSection = _adapter.Lower();
             Step = _adapter.Step();
+            Formatter = _adapter.Formatter();
+
+            Xname = _adapter.Xname();
+            Yname = _adapter.Yname();
 
         }
 
@@ -114,7 +139,15 @@ namespace DealCalc
             }
         }
 
-        public Func<double, string> Formatter { get; set; }
+        public Func<double, string> Formatter
+        {
+            get => _formatter;
+            set
+            {
+                _formatter = value;
+                OnPropertyChanged();
+            }
+        }
 
         public enum Type
         {
