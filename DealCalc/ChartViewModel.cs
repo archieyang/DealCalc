@@ -153,7 +153,8 @@ namespace DealCalc
         {
             Normal,
             Abs,
-            ConsecutiveAverage
+            ConsecutiveAverage,
+            ConsecutiveRatio
         }
 
     }

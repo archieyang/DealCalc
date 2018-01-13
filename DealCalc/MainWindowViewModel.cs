@@ -37,26 +37,50 @@ namespace DealCalc
             },
             new ChartTypeSelection
             {
-                Name = "连续5日",
+                Name = "连续5日均量",
                 Type = ChartViewModel.Type.ConsecutiveAverage,
                 ConsecutiveName = 5
             },
             new ChartTypeSelection
             {
-                Name = "连续10日",
+                Name = "连续10日均量",
                 Type = ChartViewModel.Type.ConsecutiveAverage,
                 ConsecutiveName = 10
             },
             new ChartTypeSelection
             {
-                Name = "连续20日",
+                Name = "连续20日均量",
                 Type = ChartViewModel.Type.ConsecutiveAverage,
                 ConsecutiveName = 20
             },
             new ChartTypeSelection
             {
-                Name = "连续60日",
+                Name = "连续60日均量",
                 Type = ChartViewModel.Type.ConsecutiveAverage,
+                ConsecutiveName = 60
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续5日比值",
+                Type = ChartViewModel.Type.ConsecutiveRatio,
+                ConsecutiveName = 5
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续10日比值",
+                Type = ChartViewModel.Type.ConsecutiveRatio,
+                ConsecutiveName = 10
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续20日比值",
+                Type = ChartViewModel.Type.ConsecutiveRatio,
+                ConsecutiveName = 20
+            },
+            new ChartTypeSelection
+            {
+                Name = "连续60日比值",
+                Type = ChartViewModel.Type.ConsecutiveRatio,
                 ConsecutiveName = 60
             },
         };
@@ -174,9 +198,13 @@ namespace DealCalc
             {
                 ChartViewModel.Adapter = new SingleDayAdapter(_data);
             }
-            else
+            else if (_selection.Type == ChartViewModel.Type.ConsecutiveAverage)
             {
                 ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, _selection.ConsecutiveName);
+            }
+            else
+            {
+                ChartViewModel.Adapter = new ConsecutiveEffectiveRatioAdapter(_data, _selection.ConsecutiveName);
             }
         }
     }

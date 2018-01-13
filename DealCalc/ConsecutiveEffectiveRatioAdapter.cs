@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DealCalc
 {
-    class ConsecutiveAverageAdapter : ChartAdapter
+    class ConsecutiveEffectiveRatioAdapter : ChartAdapter
     {
         private readonly List<SingleDayResult> _data;
         private readonly int _consecutiveNum;
 
-        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum)
+        public ConsecutiveEffectiveRatioAdapter(List<SingleDayResult> data, int consecutiveNum)
         {
             _data = data;
             _consecutiveNum = consecutiveNum;
         }
 
+
         public void ForEach(Action<ChartItem> action)
         {
-            
             SingleDayResult starting = null;
-            double total = 0;
+            double effectiveAmount = 0;
+            double totalAmount = 0;
 
             for (int i = 0; i < _data.Count; ++i)
             {
@@ -33,38 +33,42 @@ namespace DealCalc
                     starting = item;
                 }
 
-                total += item.EffectiveAmount;
+                effectiveAmount += item.EffectiveAmount;
+                totalAmount += item.TotalAmount;
 
                 if ((i+1) % _consecutiveNum == 0)
                 {
-                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + "-" + item.Date.ToShortDateString(), total / _consecutiveNum);
+
+                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + "-" + item.Date.ToShortDateString(), effectiveAmount / totalAmount);
                     action?.Invoke(chartItem);
 
-                    total = 0;
                     starting = null;
-                  
+                    effectiveAmount = 0;
+                    totalAmount = 0;
+
                 }
+
             }
         }
 
         public Func<double, string> Formatter()
         {
-            return d => $"{d:0.00}";
+            return d => $"{d:P2}.";
         }
 
         public double Lower()
         {
-            return 0;
+            return -0.05;
         }
 
         public double Step()
         {
-            return 1000000;
+            return 0.05;
         }
 
         public double Upper()
         {
-            return 0;
+            return 0.05;
         }
 
         public string Xname()
@@ -74,7 +78,7 @@ namespace DealCalc
 
         public string Yname()
         {
-            return "有效交易额";
+            return "百分比";
         }
     }
 }
