@@ -119,6 +119,7 @@
     <Compile Include="SingleDayAbsoluteAdapter.cs" />
     <Compile Include="SingleDayAdapter.cs" />
     <Compile Include="SingleDayProcessor.cs" />
+    <Compile Include="SingleDayResult.cs" />
     <Compile Include="TransactionData.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ChartView.xaml">
