@@ -20,29 +20,19 @@ namespace DealCalc
 
         public void ForEach(Action<ChartItem> action)
         {
-            
-            SingleDayResult starting = null;
-            double total = 0;
-
             for (int i = 0; i < _data.Count; ++i)
             {
-                var item = _data[i];
-
-                if (starting == null)
+                double total = 0;
+                for (int j = i; j < _data.Count; ++j)
                 {
-                    starting = item;
-                }
+                    var item = _data[j];
+                    total += item.EffectiveAmount;
 
-                total += item.EffectiveAmount;
-
-                if ((i+1) % _consecutiveNum == 0)
-                {
-                    ChartItem chartItem = new ChartItem(starting.Date.ToShortDateString() + "-" + item.Date.ToShortDateString(), total / _consecutiveNum);
-                    action?.Invoke(chartItem);
-
-                    total = 0;
-                    starting = null;
-                  
+                    if ((j - i +1) ==_consecutiveNum)
+                    {
+                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString() + "-" + _data[j].Date.ToShortDateString(), total / _consecutiveNum);
+                        action?.Invoke(chartItem);
+                    }
                 }
             }
         }
