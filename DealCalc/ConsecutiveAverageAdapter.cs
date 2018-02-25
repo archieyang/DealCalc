@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiveCharts;
+using LiveCharts.Definitions.Series;
+using LiveCharts.Wpf;
 
 namespace DealCalc
 {
@@ -35,6 +38,32 @@ namespace DealCalc
                     }
                 }
             }
+        }
+
+        public void ForEachSeries(Action<ISeriesView> action)
+        {
+            var values = new ChartValues<double>();
+
+            for (int i = 0; i < _data.Count; ++i)
+            {
+                double total = 0;
+                for (int j = i; j < _data.Count; ++j)
+                {
+                    var item = _data[j];
+                    total += item.EffectiveAmount;
+
+                    if ((j - i + 1) == _consecutiveNum)
+                    {
+                        values.Add(total / _consecutiveNum);
+                    }
+                }
+            }
+
+            action?.Invoke(new ColumnSeries()
+            {
+                Title = Yname(),
+                Values = values
+            });
         }
 
         public Func<double, string> Formatter()

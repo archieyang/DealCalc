@@ -70,10 +70,9 @@ namespace DealCalc
                 lables.Add(result.label);
             });
 
-            seriesCollection.Add(new ColumnSeries()
+            _adapter.ForEachSeries(series =>
             {
-                Title = _adapter.Yname(),
-                Values = values
+                seriesCollection.Add(series);
             });
 
             SeriesCollection = seriesCollection;

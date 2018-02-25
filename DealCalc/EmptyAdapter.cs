@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiveCharts.Definitions.Series;
 
 namespace DealCalc
 {
@@ -11,6 +12,11 @@ namespace DealCalc
         public void ForEach(Action<ChartItem> action)
         {
             
+        }
+
+        public void ForEachSeries(Action<ISeriesView> action)
+        {
+
         }
 
         public Func<double, string> Formatter()

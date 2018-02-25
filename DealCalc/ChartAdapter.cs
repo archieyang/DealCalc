@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveCharts.Definitions.Series;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace DealCalc
     interface ChartAdapter
     {
         void ForEach(Action<ChartItem> action);
+        void ForEachSeries(Action<ISeriesView> action);
         double Upper();
         double Lower();
         double Step();

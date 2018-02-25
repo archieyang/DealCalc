@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiveCharts;
+using LiveCharts.Definitions.Series;
+using LiveCharts.Wpf;
 
 namespace DealCalc
 {
@@ -21,6 +24,22 @@ namespace DealCalc
             {
                 ChartItem chartItem = new ChartItem(item.Date.ToShortDateString(), item.EffectiveRatio);
                 action?.Invoke(chartItem);
+            });
+        }
+
+        public void ForEachSeries(Action<ISeriesView> action)
+        {
+            var values = new ChartValues<double>();
+
+            _data.ForEach(item =>
+            {
+                values.Add(item.EffectiveRatio);
+            });
+
+            action?.Invoke(new ColumnSeries()
+            {
+                Title = Yname(),
+                Values = values
             });
         }
 
