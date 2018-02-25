@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DealCalc
 {
-    class ChartItem
+    public class ChartItem
     {
         public readonly String label;
         public readonly double value;

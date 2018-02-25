@@ -10,10 +10,10 @@ using LiveCharts.Wpf;
 
 namespace DealCalc
 {
-    class ConsecutiveAverageAdapter : ChartAdapter
+    public class ConsecutiveAverageAdapter : ChartAdapter
     {
-        private readonly List<SingleDayResult> _data;
-        private readonly int _consecutiveNum;
+        protected readonly List<SingleDayResult> _data;
+        protected readonly int _consecutiveNum;
 
         public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum)
         {
@@ -33,14 +33,14 @@ namespace DealCalc
 
                     if ((j - i +1) ==_consecutiveNum)
                     {
-                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString() + "-" + _data[j].Date.ToShortDateString(), total / _consecutiveNum);
+                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString(), total / _consecutiveNum);
                         action?.Invoke(chartItem);
                     }
                 }
             }
         }
 
-        public void ForEachSeries(Action<ISeriesView> action)
+        public virtual void ForEachSeries(Action<ISeriesView> action)
         {
             var values = new ChartValues<double>();
 
@@ -59,9 +59,9 @@ namespace DealCalc
                 }
             }
 
-            action?.Invoke(new ColumnSeries()
+            action?.Invoke(new LineSeries()
             {
-                Title = Yname(),
+                Title = "连续" + _consecutiveNum +"日均量",
                 Values = values
             });
         }

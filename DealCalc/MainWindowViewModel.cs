@@ -61,6 +61,12 @@ namespace DealCalc
             },
             new ChartTypeSelection
             {
+                Name = "连续均量比较",
+                Type = ChartViewModel.Type.ConsecutiveComposite,
+                ConsecutiveName = 0
+            },
+            new ChartTypeSelection
+            {
                 Name = "连续5日比值",
                 Type = ChartViewModel.Type.ConsecutiveRatio,
                 ConsecutiveName = 5
@@ -202,9 +208,13 @@ namespace DealCalc
             {
                 ChartViewModel.Adapter = new ConsecutiveAverageAdapter(_data, _selection.ConsecutiveName);
             }
-            else
+            else if (_selection.Type == ChartViewModel.Type.ConsecutiveRatio)
             {
                 ChartViewModel.Adapter = new ConsecutiveEffectiveRatioAdapter(_data, _selection.ConsecutiveName);
+            }
+            else
+            {
+                ChartViewModel.Adapter = new ConsecutiveCompositeAdapter(_data, 0);
             }
         }
     }

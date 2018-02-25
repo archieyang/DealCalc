@@ -108,6 +108,7 @@
     <Compile Include="ChartTypeSelection.cs" />
     <Compile Include="ChartViewModel.cs" />
     <Compile Include="ConsecutiveAverageAdapter.cs" />
+    <Compile Include="ConsecutiveCompositeAdapter.cs" />
     <Compile Include="ConsecutiveEffectiveRatioAdapter.cs" />
     <Compile Include="CoreProcessor.cs" />
     <Compile Include="DelegateCommand.cs" />
