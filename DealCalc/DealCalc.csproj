@@ -107,6 +107,8 @@
     <Compile Include="ChartItem.cs" />
     <Compile Include="ChartTypeSelection.cs" />
     <Compile Include="ChartViewModel.cs" />
+    <Compile Include="ChartySeriesFactory.cs" />
+    <Compile Include="ColumnSeriesFactory.cs" />
     <Compile Include="ConsecutiveAverageAdapter.cs" />
     <Compile Include="ConsecutiveCompositeAdapter.cs" />
     <Compile Include="ConsecutiveEffectiveRatioAdapter.cs" />
@@ -116,6 +118,7 @@
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EmptyAdapter.cs" />
+    <Compile Include="LineSeriesFactory.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="SingleDayAbsoluteAdapter.cs" />
     <Compile Include="SingleDayAdapter.cs" />

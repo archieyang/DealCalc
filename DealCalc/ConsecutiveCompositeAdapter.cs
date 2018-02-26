@@ -23,7 +23,7 @@ namespace DealCalc
             foreach ( int i in conseuctiveNums) 
             {
                 Debug.WriteLine(i + "");
-                ConsecutiveAverageAdapter adapter = new ConsecutiveAverageAdapter(_data, i);
+                ConsecutiveAverageAdapter adapter = new ConsecutiveAverageAdapter(_data, i, new LineSeriesFactory());
 
                 adapter.ForEachSeries(action);
             }

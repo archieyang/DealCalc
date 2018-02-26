@@ -14,11 +14,19 @@ namespace DealCalc
     {
         protected readonly List<SingleDayResult> _data;
         protected readonly int _consecutiveNum;
+        private readonly ChartySeriesFactory _chartySeriesFactory;
 
-        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum)
+        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum) : this(data, consecutiveNum, new ColumnSeriesFactory())
+        {
+            
+        }
+
+
+        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum, ChartySeriesFactory chartySeriesFactory)
         {
             _data = data;
             _consecutiveNum = consecutiveNum;
+            _chartySeriesFactory = chartySeriesFactory;
         }
 
         public void ForEach(Action<ChartItem> action)
@@ -59,11 +67,7 @@ namespace DealCalc
                 }
             }
 
-            action?.Invoke(new LineSeries()
-            {
-                Title = "连续" + _consecutiveNum +"日均量",
-                Values = values
-            });
+            action?.Invoke(_chartySeriesFactory.Build("连续" + _consecutiveNum + "日均量", values));
         }
 
         public Func<double, string> Formatter()
