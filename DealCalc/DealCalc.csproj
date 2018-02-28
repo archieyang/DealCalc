@@ -112,6 +112,7 @@
     <Compile Include="ConsecutiveAverageAdapter.cs" />
     <Compile Include="ConsecutiveCompositeAdapter.cs" />
     <Compile Include="ConsecutiveEffectiveRatioAdapter.cs" />
+    <Compile Include="ConsecutiveEffectiveSumAdapter.cs" />
     <Compile Include="CoreProcessor.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ChartView.xaml.cs">

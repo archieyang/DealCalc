@@ -37,6 +37,12 @@ namespace DealCalc
             },
             new ChartTypeSelection
             {
+                Name = "总和",
+                Type = ChartViewModel.Type.Sum,
+                ConsecutiveName = 1
+            },
+            new ChartTypeSelection
+            {
                 Name = "连续5日均量",
                 Type = ChartViewModel.Type.ConsecutiveAverage,
                 ConsecutiveName = 5
@@ -203,6 +209,10 @@ namespace DealCalc
             else  if (_selection.Type == ChartViewModel.Type.Normal)
             {
                 ChartViewModel.Adapter = new SingleDayAdapter(_data);
+            }
+            else if (_selection.Type == ChartViewModel.Type.Sum)
+            {
+                ChartViewModel.Adapter = new ConsecutiveEffectiveSumAdapter(_data);
             }
             else if (_selection.Type == ChartViewModel.Type.ConsecutiveAverage)
             {

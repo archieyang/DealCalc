@@ -97,7 +97,7 @@ namespace DealCalc
 
         public string Yname()
         {
-            return "有效交易额";
+            return "有效交易量";
         }
     }
 }
