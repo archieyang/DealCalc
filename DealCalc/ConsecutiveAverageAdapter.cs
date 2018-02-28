@@ -72,7 +72,7 @@ namespace DealCalc
 
         public Func<double, string> Formatter()
         {
-            return d => $"{d:0.00}";
+            return d => $"{d / 10000:0}万";
         }
 
         public double Lower()
