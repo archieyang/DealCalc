@@ -13,7 +13,7 @@ namespace DealCalc
         void ForEachSeries(Action<ISeriesView> action);
         double Upper();
         double Lower();
-        double Step();
+        String Step();
         String Xname();
         String Yname();
         Func<double, string> Formatter();

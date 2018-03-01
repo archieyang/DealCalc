@@ -16,7 +16,7 @@ namespace DealCalc
         private ChartAdapter _adapter = new EmptyAdapter();
         private  double _upperSection = 0.05;
         private double _lowerSection = -0.05;
-        private double _step = 0.05;
+        private String _step = null;
         private string[] _labels;
         private String xname = "x";
         private String yname = "y";
@@ -128,7 +128,7 @@ namespace DealCalc
             }
         }
 
-        public double Step
+        public String Step
         {
             get => _step;
             set

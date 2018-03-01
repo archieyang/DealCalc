@@ -80,10 +80,10 @@ namespace DealCalc
         {
             return -0.05;
         }
-
-        public double Step()
+        
+        public String Step()
         {
-            return 0.05;
+            return "0.05";
         }
 
         public double Upper()

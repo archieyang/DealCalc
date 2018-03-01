@@ -29,9 +29,9 @@ namespace DealCalc
             return 0;
         }
 
-        public double Step()
+        public String Step()
         {
-            return 0;
+            return null;
         }
 
         public double Upper()

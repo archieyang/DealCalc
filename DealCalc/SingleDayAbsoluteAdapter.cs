@@ -53,11 +53,11 @@ namespace DealCalc
             return 0.25;
         }
 
-        public double Step()
+        public String Step()
         {
-            return 0.25;
+            return "0.25";
         }
-
+        
         public double Upper()
         {
             return 0.25;
