@@ -6,6 +6,13 @@
              xmlns:local="clr-namespace:DealCalc"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <Style TargetType="lvc:ColumnSeries">
+            <Setter Property="StrokeThickness" Value="0"></Setter>
+            <Setter Property="Stroke" Value="White"></Setter>
+            <Setter Property="Fill" Value="#990099"></Setter>
+        </Style>
+    </UserControl.Resources>
     <lvc:CartesianChart Series="{Binding SeriesCollection, UpdateSourceTrigger=PropertyChanged}"  LegendLocation="None" FontSize="{DynamicResource ContentFontSize}" Zoom="X">
         <lvc:CartesianChart.AxisX>
             <lvc:Axis Title="{Binding Xname, UpdateSourceTrigger=PropertyChanged}" Labels="{Binding Labels, UpdateSourceTrigger=PropertyChanged}" FontSize="{DynamicResource NormalFontSize}"/>
