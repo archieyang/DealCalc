@@ -14,7 +14,14 @@ namespace DealCalc
         {
             
         }
-
+        public override void ForEach(Action<ChartItem> action)
+        {
+            for (int i = 0; i < _data.Count; ++i)
+            {
+                ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString(), 0);
+                action?.Invoke(chartItem);
+            }
+        }
 
         public override void ForEachSeries(Action<ISeriesView> action)
         {

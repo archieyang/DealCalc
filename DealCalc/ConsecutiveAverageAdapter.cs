@@ -29,7 +29,7 @@ namespace DealCalc
             _chartySeriesFactory = chartySeriesFactory;
         }
 
-        public void ForEach(Action<ChartItem> action)
+        public virtual void ForEach(Action<ChartItem> action)
         {
             for (int i = 0; i < _data.Count; ++i)
             {
@@ -41,7 +41,7 @@ namespace DealCalc
 
                     if ((j - i +1) ==_consecutiveNum)
                     {
-                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString(), total / _consecutiveNum);
+                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString() + "-" + _data[j].Date.ToShortDateString(), total / _consecutiveNum);
                         action?.Invoke(chartItem);
                     }
                 }

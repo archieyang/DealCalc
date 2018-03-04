@@ -224,7 +224,7 @@ namespace DealCalc
             }
             else
             {
-                ChartViewModel.Adapter = new ConsecutiveCompositeAdapter(_data, 0);
+                ChartViewModel.Adapter = new ConsecutiveCompositeAdapter(_data, 1);
             }
         }
     }
