@@ -11,6 +11,8 @@ namespace DealCalc
 
     public class CoreProcessor
     {
+        private readonly DateTime VALID_DATA_START = new DateTime(2017, 8, 15, 0, 0, 0);
+
         public double Total;
         public double Average;
         public ErrorHandlerDelegate ErrorHandler;
@@ -30,6 +32,11 @@ namespace DealCalc
                 var dateSortedData = new Dictionary<DateTime, List<TransactionData>>();
                 foreach (var transactionData in Data)
                 {
+                    if (DateTime.Compare(transactionData.DateTime.Date, VALID_DATA_START) < 0)
+                    {
+                        continue;
+                    }
+
                     List<TransactionData> dataListForDay;
 
                     if (!dateSortedData.ContainsKey(transactionData.DateTime.Date))
