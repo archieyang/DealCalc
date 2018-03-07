@@ -62,18 +62,12 @@ namespace DealCalc
         {
             var seriesCollection = new SeriesCollection();
 
-            var values = new ChartValues<double>();
             var lables = new List<string>();
-            _adapter.ForEach(result =>
-            {
-                values.Add(result.value);
-                lables.Add(result.label);
-            });
 
             _adapter.ForEachSeries(series =>
             {
                 seriesCollection.Add(series);
-            });
+            }, label=> { lables.Add(label); });
 
             SeriesCollection = seriesCollection;
             Labels = lables.ToArray();

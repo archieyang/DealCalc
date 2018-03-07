@@ -18,16 +18,7 @@ namespace DealCalc
             _data = data;
         }
 
-        public void ForEach(Action<ChartItem> action)
-        {
-            for (int i = 0; i < _data.Count; ++i)
-            {
-                ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString(), 0);
-                action?.Invoke(chartItem);
-            }
-        }
-
-        public virtual void ForEachSeries(Action<ISeriesView> action)
+        public void ForEachSeries(Action<ISeriesView> data, Action<string> labels)
         {
             var values = new ChartValues<double>();
             double total = 0;
@@ -36,9 +27,10 @@ namespace DealCalc
             {
                 total += _data[i].EffectiveAmount;
                 values.Add(total);
+                labels?.Invoke(_data[i].Date.ToShortDateString());
             }
 
-            action?.Invoke(_chartySeriesFactory.Build("总量", values));
+            data?.Invoke(_chartySeriesFactory.Build("总量", values));
         }
 
         public Func<double, string> Formatter()

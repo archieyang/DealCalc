@@ -15,59 +15,48 @@ namespace DealCalc
         protected readonly List<SingleDayResult> _data;
         protected readonly int _consecutiveNum;
         private readonly ChartySeriesFactory _chartySeriesFactory;
+        private readonly Action<ChartValues<double>> _emptyDataFiller;
 
-        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum) : this(data, consecutiveNum, new ColumnSeriesFactory())
+        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum) : this(data, consecutiveNum, new ColumnSeriesFactory(), values => { })
         {
             
         }
 
 
-        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum, ChartySeriesFactory chartySeriesFactory)
+        public ConsecutiveAverageAdapter(List<SingleDayResult> data, int consecutiveNum, ChartySeriesFactory chartySeriesFactory, Action<ChartValues<double>> filler)
         {
             _data = data;
             _consecutiveNum = consecutiveNum;
             _chartySeriesFactory = chartySeriesFactory;
+            _emptyDataFiller = filler;
         }
 
-        public virtual void ForEach(Action<ChartItem> action)
-        {
-            for (int i = 0; i < _data.Count; ++i)
-            {
-                double total = 0;
-                for (int j = i; j < _data.Count; ++j)
-                {
-                    var item = _data[j];
-                    total += item.EffectiveAmount;
-
-                    if ((j - i +1) ==_consecutiveNum)
-                    {
-                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString() + "-" + _data[j].Date.ToShortDateString(), total / _consecutiveNum);
-                        action?.Invoke(chartItem);
-                    }
-                }
-            }
-        }
-
-        public virtual void ForEachSeries(Action<ISeriesView> action)
+        public virtual void ForEachSeries(Action<ISeriesView> data, Action<string> labels)
         {
             var values = new ChartValues<double>();
 
             for (int i = 0; i < _data.Count; ++i)
             {
-                double total = 0;
-                for (int j = i; j < _data.Count; ++j)
+                if (i < _consecutiveNum - 1)
                 {
-                    var item = _data[j];
-                    total += item.EffectiveAmount;
-
-                    if ((j - i + 1) == _consecutiveNum)
-                    {
-                        values.Add(total / _consecutiveNum);
-                    }
+                    _emptyDataFiller.Invoke(values);
                 }
+                else
+                {
+                    double total = 0;
+                    for (int j = i; j >= i - _consecutiveNum + 1; --j)
+                    {
+                        var item = _data[j];
+                        total += item.EffectiveAmount;
+                    }
+
+                    labels?.Invoke(_data[i].Date.ToShortDateString());
+                    values.Add(total / _consecutiveNum);
+                }
+
             }
 
-            action?.Invoke(_chartySeriesFactory.Build("连续" + _consecutiveNum + "日均量", values));
+            data?.Invoke(_chartySeriesFactory.Build("连续" + _consecutiveNum + "日均量", values));
         }
 
         public Func<double, string> Formatter()

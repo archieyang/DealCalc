@@ -18,25 +18,17 @@ namespace DealCalc
             _data = data;
         }
 
-        public void ForEach(Action<ChartItem> action)
-        {
-            _data.ForEach(item =>
-            {
-                ChartItem chartItem = new ChartItem(item.Date.ToShortDateString(), item.AbsEffectiveRatio);
-                action?.Invoke(chartItem);
-            });
-        }
-
-        public void ForEachSeries(Action<ISeriesView> action)
+        public void ForEachSeries(Action<ISeriesView> data, Action<string> labels)
         {
             var values = new ChartValues<double>();
 
             _data.ForEach(item =>
             {
                 values.Add(item.AbsEffectiveRatio);
+                labels.Invoke(item.Date.ToShortDateString());
             });
 
-            action?.Invoke(new ColumnSeries()
+            data?.Invoke(new ColumnSeries()
             {
                 Title = Yname(),
                 Values = values

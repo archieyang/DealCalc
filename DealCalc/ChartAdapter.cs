@@ -9,8 +9,7 @@ namespace DealCalc
 {
     interface ChartAdapter
     {
-        void ForEach(Action<ChartItem> action);
-        void ForEachSeries(Action<ISeriesView> action);
+        void ForEachSeries(Action<ISeriesView> data, Action<String> labels);
         double Upper();
         double Lower();
         String Step();

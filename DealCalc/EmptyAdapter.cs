@@ -14,9 +14,9 @@ namespace DealCalc
             
         }
 
-        public void ForEachSeries(Action<ISeriesView> action)
+        public void ForEachSeries(Action<ISeriesView> data, Action<string> labels)
         {
-
+           
         }
 
         public Func<double, string> Formatter()

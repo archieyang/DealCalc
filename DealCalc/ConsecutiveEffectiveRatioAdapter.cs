@@ -17,31 +17,7 @@ namespace DealCalc
             _consecutiveNum = consecutiveNum;
         }
 
-
-        public void ForEach(Action<ChartItem> action)
-        {
-            for (int i = 0; i < _data.Count; ++i)
-            {
-                double effectiveAmount = 0;
-                double totalAmount = 0;
-
-                for (int j= i; j < _data.Count; ++j)
-                {
-                    var item = _data[j];
-
-                    effectiveAmount += item.EffectiveAmount;
-                    totalAmount += item.TotalAmount;
-
-                    if ( (j -i +1) == _consecutiveNum)
-                    {
-                        ChartItem chartItem = new ChartItem(_data[i].Date.ToShortDateString() + "-" + _data[j].Date.ToShortDateString(), effectiveAmount / totalAmount);
-                        action?.Invoke(chartItem);
-                    }
-                }
-            }
-        }
-
-        public void ForEachSeries(Action<ISeriesView> action)
+        public void ForEachSeries(Action<ISeriesView> data, Action<string> labels)
         {
             var values = new ChartValues<double>();
 
@@ -60,11 +36,12 @@ namespace DealCalc
                     if ((j - i + 1) == _consecutiveNum)
                     {
                         values.Add(effectiveAmount / totalAmount);
+                        labels?.Invoke(_data[j].Date.ToShortDateString());
                     }
                 }
             }
 
-            action?.Invoke(new ColumnSeries()
+            data?.Invoke(new ColumnSeries()
             {
                 Title = Yname(),
                 Values = values
