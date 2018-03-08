@@ -10,6 +10,7 @@ namespace DealCalc
 {
     internal class ConsecutiveCompositeAdapter : ConsecutiveAverageAdapter
     {
+        private readonly ChartySeriesFactory chartySeriesFactory = new LineSeriesFactory();
         public ConsecutiveCompositeAdapter(List<SingleDayResult> data, int consecutiveNum) : base(data, consecutiveNum)
         {
             
@@ -22,7 +23,7 @@ namespace DealCalc
             foreach ( int i in conseuctiveNums) 
             {
                 Debug.WriteLine(i + "");
-                ConsecutiveAverageAdapter adapter = new ConsecutiveAverageAdapter(_data, i, new LineSeriesFactory(), values=>values.Add(double.NaN));
+                ConsecutiveAverageAdapter adapter = new ConsecutiveAverageAdapter(_data, i,chartySeriesFactory, values=>values.Add(double.NaN));
 
                 adapter.ForEachSeries(data, l => { } );
             }
